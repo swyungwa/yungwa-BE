@@ -7,6 +7,9 @@ public record LoginResponse(
         Long userId,
 
         @Schema(description = "사용자의 인스타그램 ID", example = "test_123")
-        String instagramId
+        String instagramId,
+
+        @Schema(description = "JWT 액세스 토큰")
+        String accessToken
 ) {
 }
