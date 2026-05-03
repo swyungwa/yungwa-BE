@@ -8,6 +8,7 @@ import com.yungwa.domain.user.entity.User;
 import com.yungwa.domain.user.repository.UserRepository;
 import com.yungwa.global.exception.CustomException;
 import com.yungwa.global.exception.ErrorCode;
+import com.yungwa.global.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ public class AuthService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtUtil jwtUtil;
 
     @Transactional
     public SignupResponse signup(SignupRequest signupRequest) {
@@ -52,6 +54,7 @@ public class AuthService {
             throw new CustomException(ErrorCode.INVALID_PASSWORD);
         }
 
-        return new LoginResponse(user.getId(), user.getInstagramId());
+        String token = jwtUtil.generateToken(user.getId());
+        return new LoginResponse(user.getId(), user.getInstagramId(), token);
     }
 }

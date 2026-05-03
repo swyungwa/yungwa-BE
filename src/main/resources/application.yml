@@ -21,3 +21,6 @@ server:
 jwt:
   secret: ${JWT_SECRET}
   expiration: 604800000
+
+admin:
+  secret-code: ${ADMIN_SECRET_CODE}
