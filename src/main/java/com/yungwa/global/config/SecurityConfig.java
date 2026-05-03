@@ -43,6 +43,8 @@ public class SecurityConfig {
                         .requestMatchers(SWAGGER_PATHS).permitAll()
                         .requestMatchers(AUTH_PATHS).permitAll()
                         .requestMatchers("/api/tickets/**").authenticated()
+                        .requestMatchers("/api/cards/**").authenticated()
+                        .requestMatchers("/api/unlocks/**").authenticated()
                         .anyRequest().permitAll())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
