@@ -1,7 +1,6 @@
 package com.yungwa.domain.auth.dto.request;
 
 import com.yungwa.domain.user.domain.Gender;
-import com.yungwa.domain.user.domain.LoveType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -19,9 +18,6 @@ public record SignupRequest(
 
         @Schema(description = "MBTI", example = "ENFP")
         String mbti,
-
-        @Schema(description = "조선시대 연애 유형", example = "JANGGUN")
-        LoveType loveType,
 
         @Schema(description = "카드에 표시될 한 줄 자기소개", example = "활 잘 쏘는 사람 좋아합니다")
         @Size(max = 255) String introduction,

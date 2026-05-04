@@ -31,7 +31,6 @@ public class AuthService {
                 .password(passwordEncoder.encode(signupRequest.password()))
                 .gender(signupRequest.gender())
                 .mbti(signupRequest.mbti())
-                .loveType(signupRequest.loveType())
                 .introduction(signupRequest.introduction())
                 .emoji(signupRequest.emoji())
                 .build();

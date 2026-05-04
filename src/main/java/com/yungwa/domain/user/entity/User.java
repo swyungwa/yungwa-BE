@@ -1,15 +1,18 @@
 package com.yungwa.domain.user.entity;
 
+import com.yungwa.domain.lovetype.entity.LoveType;
 import com.yungwa.domain.user.domain.Gender;
-import com.yungwa.domain.user.domain.LoveType;
 import com.yungwa.global.entity.BaseTimeEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Builder;
 import lombok.Getter;
@@ -37,7 +40,8 @@ public class User extends BaseTimeEntity {
 
     private String mbti;
 
-    @Enumerated(EnumType.STRING)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "love_type_id")
     private LoveType loveType;
 
     @Column(length = 255)
@@ -53,15 +57,18 @@ public class User extends BaseTimeEntity {
 
     @Builder
     public User(String instagramId, String password, Gender gender, String mbti,
-            LoveType loveType, String introduction, String emoji) {
+            String introduction, String emoji) {
         this.instagramId = instagramId;
         this.password = password;
         this.gender = gender;
         this.mbti = mbti;
-        this.loveType = loveType;
         this.introduction = introduction;
         this.emoji = emoji;
         this.ticketCount = 0;
         this.deleted = false;
+    }
+
+    public void updateLoveType(LoveType loveType) {
+        this.loveType = loveType;
     }
 }

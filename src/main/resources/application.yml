@@ -2,6 +2,10 @@ spring:
   profiles:
     active: local
 
+  sql:
+    init:
+      mode: always
+
   jpa:
     hibernate:
       ddl-auto: update
@@ -9,6 +13,7 @@ spring:
       hibernate:
         format_sql: true
     show-sql: true
+    defer-datasource-initialization: true
 
 server:
   port: 8080
