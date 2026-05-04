@@ -1,9 +1,12 @@
 package com.yungwa.domain.unlock.controller;
 
+import com.yungwa.domain.unlock.dto.response.CardListItemResponse;
 import com.yungwa.domain.unlock.dto.response.CardProfileResponse;
 import com.yungwa.domain.unlock.dto.response.UnlockedUserResponse;
 import com.yungwa.domain.unlock.dto.response.UnlockResponse;
+import com.yungwa.domain.unlock.service.CardService;
 import com.yungwa.domain.unlock.service.UnlockService;
+import com.yungwa.domain.user.domain.GenderFilter;
 import com.yungwa.global.response.ApiResponse;
 import com.yungwa.global.security.CustomUserDetails;
 import io.swagger.v3.oas.annotations.Operation;
@@ -17,6 +20,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "Card", description = "카드 조회 및 잠금 해제 API")
@@ -25,6 +29,20 @@ import org.springframework.web.bind.annotation.RestController;
 public class CardController {
 
     private final UnlockService unlockService;
+    private final CardService cardService;
+
+    @Operation(
+            summary = "카드 목록 조회",
+            description = "성별 필터로 카드 목록을 조회합니다. 미열람 카드는 instagramId가 'LOCKED'로 마스킹됩니다.",
+            security = @SecurityRequirement(name = "bearerAuth"))
+    @GetMapping("/api/cards")
+    public ResponseEntity<ApiResponse<List<CardListItemResponse>>> getCards(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @RequestParam(defaultValue = "ALL") GenderFilter gender) {
+        return ResponseEntity.ok(
+                ApiResponse.success("카드 목록을 조회했습니다.",
+                        cardService.getCards(userDetails.getUserId(), gender)));
+    }
 
     @Operation(
             summary = "카드 잠금 해제",

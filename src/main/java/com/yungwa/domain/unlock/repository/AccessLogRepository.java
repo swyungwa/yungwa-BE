@@ -3,6 +3,7 @@ package com.yungwa.domain.unlock.repository;
 import com.yungwa.domain.unlock.entity.AccessLog;
 import com.yungwa.domain.user.entity.User;
 import java.util.List;
+import java.util.Set;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -13,4 +14,7 @@ public interface AccessLogRepository extends JpaRepository<AccessLog, Long> {
 
     @Query("SELECT a FROM AccessLog a JOIN FETCH a.target t LEFT JOIN FETCH t.loveType WHERE a.viewer = :viewer ORDER BY a.accessedAt DESC")
     List<AccessLog> findByViewerWithTargetOrderByAccessedAtDesc(@Param("viewer") User viewer);
+
+    @Query("SELECT a.target.id FROM AccessLog a WHERE a.viewer.id = :viewerId")
+    Set<Long> findUnlockedTargetIdsByViewerId(@Param("viewerId") Long viewerId);
 }
