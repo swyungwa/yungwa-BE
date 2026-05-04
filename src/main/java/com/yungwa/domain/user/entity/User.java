@@ -75,4 +75,10 @@ public class User extends BaseTimeEntity {
     public void updateTicketCount(int delta) {
         this.ticketCount += delta;
     }
+
+    public void updateProfile(String mbti, String introduction, String emoji) {
+        if (mbti != null) this.mbti = mbti;
+        if (introduction != null) this.introduction = introduction;
+        if (emoji != null) this.emoji = emoji;
+    }
 }
