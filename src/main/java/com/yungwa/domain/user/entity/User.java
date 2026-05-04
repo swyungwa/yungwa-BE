@@ -71,4 +71,8 @@ public class User extends BaseTimeEntity {
     public void updateLoveType(LoveType loveType) {
         this.loveType = loveType;
     }
+
+    public void updateTicketCount(int delta) {
+        this.ticketCount += delta;
+    }
 }
