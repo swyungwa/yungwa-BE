@@ -4,6 +4,7 @@ import com.yungwa.global.security.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -42,8 +43,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(SWAGGER_PATHS).permitAll()
                         .requestMatchers(AUTH_PATHS).permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/cards", "/api/cards/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/cards/**").authenticated()
                         .requestMatchers("/api/tickets/**").authenticated()
-                        .requestMatchers("/api/cards/**").authenticated()
                         .requestMatchers("/api/unlocks/**").authenticated()
                         .requestMatchers("/api/users/**").authenticated()
                         .anyRequest().permitAll())

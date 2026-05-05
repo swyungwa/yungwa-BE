@@ -23,9 +23,10 @@ public class CardService {
         List<com.yungwa.domain.user.entity.User> users =
                 userRepository.findCardsByGenderFilter(viewerId, genderFilter);
 
-        // 2번 쿼리: 내가 열람한 targetId Set
-        Set<Long> unlockedTargetIds =
-                accessLogRepository.findUnlockedTargetIdsByViewerId(viewerId);
+        // 2번 쿼리: 내가 열람한 targetId Set (비로그인 시 빈 Set)
+        Set<Long> unlockedTargetIds = viewerId != null
+                ? accessLogRepository.findUnlockedTargetIdsByViewerId(viewerId)
+                : Set.of();
 
         return users.stream()
                 .map(user -> CardListItemResponse.of(user, unlockedTargetIds.contains(user.getId())))

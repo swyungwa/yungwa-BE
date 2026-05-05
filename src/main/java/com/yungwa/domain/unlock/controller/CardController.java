@@ -33,15 +33,15 @@ public class CardController {
 
     @Operation(
             summary = "카드 목록 조회",
-            description = "성별 필터로 카드 목록을 조회합니다. 미열람 카드는 instagramId가 'LOCKED'로 마스킹됩니다.",
-            security = @SecurityRequirement(name = "bearerAuth"))
+            description = "성별 필터로 카드 목록을 조회합니다. 비로그인 사용자도 조회 가능하며, 미열람 카드는 instagramId가 'LOCKED'로 마스킹됩니다.")
     @GetMapping("/api/cards")
     public ResponseEntity<ApiResponse<List<CardListItemResponse>>> getCards(
             @AuthenticationPrincipal CustomUserDetails userDetails,
             @RequestParam(defaultValue = "ALL") GenderFilter gender) {
+        Long viewerId = userDetails != null ? userDetails.getUserId() : null;
         return ResponseEntity.ok(
                 ApiResponse.success("카드 목록을 조회했습니다.",
-                        cardService.getCards(userDetails.getUserId(), gender)));
+                        cardService.getCards(viewerId, gender)));
     }
 
     @Operation(

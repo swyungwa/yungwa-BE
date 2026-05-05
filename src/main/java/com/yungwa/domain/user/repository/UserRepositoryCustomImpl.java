@@ -19,7 +19,9 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
         QUser user = QUser.user;
 
         BooleanBuilder builder = new BooleanBuilder();
-        builder.and(user.id.ne(viewerId));
+        if (viewerId != null) {
+            builder.and(user.id.ne(viewerId));
+        }
         builder.and(user.deleted.isFalse());
 
         if (genderFilter != GenderFilter.ALL) {
