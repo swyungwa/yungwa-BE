@@ -23,6 +23,9 @@ public record SignupRequest(
         @Size(max = 255) String introduction,
 
         @Schema(description = "카드 대표 이모지", example = "🏹")
-        String emoji
+        String emoji,
+
+        @Schema(description = "연애 유형 코드 (love-test 결과)", example = "JANGGUN")
+        @NotBlank String loveTypeCode
 ) {
 }
