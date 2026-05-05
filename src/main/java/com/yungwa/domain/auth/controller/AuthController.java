@@ -32,4 +32,9 @@ public class AuthController implements AuthControllerDocs {
     public ResponseEntity<ApiResponse<LoginResponse>> login(@RequestBody @Valid LoginRequest loginRequest) {
         return ResponseEntity.ok(ApiResponse.success("로그인에 성공했습니다.", authService.login(loginRequest)));
     }
+
+    @PostMapping("/logout")
+    public ResponseEntity<ApiResponse<Void>> logout() {
+        return ResponseEntity.ok(ApiResponse.success("로그아웃되었습니다.", null));
+    }
 }
