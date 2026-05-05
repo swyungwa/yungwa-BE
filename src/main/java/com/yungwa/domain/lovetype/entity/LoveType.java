@@ -2,6 +2,8 @@ package com.yungwa.domain.lovetype.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -20,8 +22,9 @@ public class LoveType {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "type_code", unique = true, nullable = false, length = 20)
-    private String typeCode;
+    private LoveTypeCode typeCode;
 
     @Column(name = "name_ko", nullable = false, length = 20)
     private String nameKo;
@@ -30,7 +33,7 @@ public class LoveType {
     private String description;
 
     @Builder
-    public LoveType(String typeCode, String nameKo, String description) {
+    public LoveType(LoveTypeCode typeCode, String nameKo, String description) {
         this.typeCode = typeCode;
         this.nameKo = nameKo;
         this.description = description;

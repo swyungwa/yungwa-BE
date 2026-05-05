@@ -1,12 +1,13 @@
 package com.yungwa.domain.lovetype.dto.response;
 
 import com.yungwa.domain.lovetype.entity.LoveType;
+import com.yungwa.domain.lovetype.entity.LoveTypeCode;
 import com.yungwa.domain.user.entity.User;
 
 public record LoveTestResultResponse(
         Long userId,
         String instagramId,
-        String typeCode,
+        LoveTypeCode typeCode,
         String nameKo,
         String description
 ) {

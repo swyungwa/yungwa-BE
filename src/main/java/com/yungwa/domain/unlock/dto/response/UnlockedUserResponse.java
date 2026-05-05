@@ -1,5 +1,6 @@
 package com.yungwa.domain.unlock.dto.response;
 
+import com.yungwa.domain.lovetype.entity.LoveTypeCode;
 import com.yungwa.domain.user.entity.User;
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -24,7 +25,7 @@ public record UnlockedUserResponse(
         String emoji,
 
         @Schema(description = "연애 유형 코드")
-        String loveTypeCode,
+        LoveTypeCode loveTypeCode,
 
         @Schema(description = "연애 유형 한글명")
         String loveTypeName

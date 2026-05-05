@@ -1,5 +1,6 @@
 package com.yungwa.domain.auth.dto.response;
 
+import com.yungwa.domain.lovetype.entity.LoveTypeCode;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 public record SignupResponse(
@@ -21,8 +22,8 @@ public record SignupResponse(
         @Schema(description = "카드 대표 이모지", example = "🏹")
         String emoji,
 
-        @Schema(description = "연애 유형 코드", example = "JANGGUN")
-        String loveTypeCode,
+        @Schema(description = "연애 유형 코드", example = "GENERAL")
+        LoveTypeCode loveTypeCode,
 
         @Schema(description = "연애 유형 이름 (한글)", example = "장군")
         String loveTypeName,

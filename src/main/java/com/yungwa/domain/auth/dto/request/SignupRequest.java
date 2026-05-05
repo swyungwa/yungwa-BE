@@ -1,5 +1,6 @@
 package com.yungwa.domain.auth.dto.request;
 
+import com.yungwa.domain.lovetype.entity.LoveTypeCode;
 import com.yungwa.domain.user.domain.Gender;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
@@ -25,7 +26,8 @@ public record SignupRequest(
         @Schema(description = "카드 대표 이모지", example = "🏹")
         String emoji,
 
-        @Schema(description = "연애 유형 코드 (love-test 결과)", example = "JANGGUN")
-        @NotBlank String loveTypeCode
+        @Schema(description = "연애 유형 코드 (love-test 결과)", example = "GENERAL",
+                allowableValues = {"SATTO", "GENERAL", "YANGBAN", "DOLSOE", "ROYAL", "CLOWN"})
+        @NotNull LoveTypeCode loveTypeCode
 ) {
 }
