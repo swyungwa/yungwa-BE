@@ -4,6 +4,8 @@ import com.yungwa.domain.auth.dto.request.LoginRequest;
 import com.yungwa.domain.auth.dto.request.SignupRequest;
 import com.yungwa.domain.auth.dto.response.LoginResponse;
 import com.yungwa.domain.auth.dto.response.SignupResponse;
+import com.yungwa.domain.lovetype.entity.LoveType;
+import com.yungwa.domain.lovetype.repository.LoveTypeRepository;
 import com.yungwa.domain.user.entity.User;
 import com.yungwa.domain.user.repository.UserRepository;
 import com.yungwa.global.exception.CustomException;
@@ -19,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class AuthService {
 
     private final UserRepository userRepository;
+    private final LoveTypeRepository loveTypeRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
 
@@ -27,6 +30,9 @@ public class AuthService {
         if (userRepository.existsByInstagramId(signupRequest.instagramId())) {
             throw new CustomException(ErrorCode.USER_DUPLICATED_INSTAGRAM_ID);
         }
+
+        LoveType loveType = loveTypeRepository.findByTypeCode(signupRequest.loveTypeCode())
+                .orElseThrow(() -> new CustomException(ErrorCode.LOVE_TYPE_NOT_FOUND));
 
         User user = User.builder()
                 .instagramId(signupRequest.instagramId())
@@ -37,8 +43,21 @@ public class AuthService {
                 .emoji(signupRequest.emoji())
                 .build();
 
+        user.updateLoveType(loveType);
         User savedUser = userRepository.save(user);
-        return new SignupResponse(savedUser.getId(), savedUser.getInstagramId());
+
+        String token = jwtUtil.generateToken(savedUser.getId());
+        return new SignupResponse(
+                savedUser.getId(),
+                savedUser.getInstagramId(),
+                savedUser.getGender().name(),
+                savedUser.getMbti(),
+                savedUser.getIntroduction(),
+                savedUser.getEmoji(),
+                loveType.getTypeCode(),
+                loveType.getNameKo(),
+                token
+        );
     }
 
     @Transactional(readOnly = true)
